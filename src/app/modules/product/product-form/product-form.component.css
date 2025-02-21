@@ -1,0 +1,109 @@
+/* Base styling for the container */
+.container-fluid {
+  padding: 0;
+}
+
+/* Sidebar styling */
+.sidebar {
+  background: linear-gradient(to bottom, #f8f9fa, #e9ecef); /* Gradient background */
+  height: 100vh;              /* Full height of the viewport */
+  position: sticky;           /* Sticky position */
+  top: 0;
+  padding: 1rem;              /* Padding around the sidebar */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+/* Navbar styling */
+.navbar-nav {
+  margin-top: 1rem;           /* Space from the top */
+}
+
+.nav-item {
+  margin-bottom: 0.5rem;      /* Space between items */
+}
+
+.nav-link {
+  color: #007bff;             /* Bootstrap primary color */
+  padding: 0.5rem 1rem;       /* Padding for links */
+  border-radius: 0.25rem;     /* Rounded corners */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.nav-link:hover {
+  background-color: #007bff;  /* Background color on hover */
+  color: #ffffff;              /* White text on hover */
+}
+
+/* Main content styling */
+.col-md-10 {
+  padding: 2rem;              /* Padding for the main content area */
+  background-color: #ffffff;  /* White background */
+  border-radius: 8px;         /* Rounded corners */
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;        /* Sidebar is static on small screens */
+    height: auto;             /* Height adjusts based on content */
+  }
+
+  .col-md-10 {
+    padding: 1rem;            /* Less padding for smaller screens */
+  }
+}
+
+/* Form styling */
+.form-group {
+  margin-bottom: 2rem;        /* Increased space between form fields */
+}
+
+label {
+  font-weight: bold;          /* Bold labels for better visibility */
+}
+
+.text-danger {
+  font-size: 0.9rem;          /* Smaller font size for error messages */
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: #007bff;  /* Bootstrap primary color */
+  border: none;                /* Remove border */
+  padding: 0.75rem 1.5rem;     /* More padding for buttons */
+  font-size: 1.1rem;           /* Larger font size */
+  border-radius: 0.25rem;      /* Rounded corners */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;   /* Darker shade on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.btn-danger {
+  margin-right: 0.5rem;        /* Space from other buttons */
+}
+
+/* Image preview styling */
+.img-thumbnail {
+  border: 1px solid #dee2e6;   /* Light border for the image */
+  border-radius: 0.25rem;       /* Rounded corners */
+  transition: transform 0.3s;   /* Smooth transition for hover */
+}
+
+.img-thumbnail:hover {
+  transform: scale(1.05);       /* Slight zoom effect on hover */
+}
+
+/* Responsive form elements */
+@media (max-width: 576px) {
+  .form-group {
+    margin-bottom: 1.5rem;      /* Adjusted spacing for smaller screens */
+  }
+
+  .btn-primary {
+    width: 100%;                /* Full-width button on small screens */
+  }
+}

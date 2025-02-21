@@ -1,0 +1,129 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Update Product</h2>
+  
+    <div *ngIf="isLoading" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading product details...</p>
+    </div>
+  
+
+    <form *ngIf="!isLoading" [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="name" class="form-label">Product Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            formControlName="name"
+            placeholder="Enter product name"
+          />
+          <div
+            *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+            class="text-danger"
+          >
+            Product name is required and must be at least 3 characters long.
+          </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label for="price" class="form-label">Price</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            formControlName="price"
+            placeholder="Enter product price"
+          />
+          <div
+            *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"
+            class="text-danger"
+          >
+            Product price is required and must be a valid number.
+          </div>
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="description"
+          formControlName="description"
+          placeholder="Enter product description"
+          rows="4"
+        ></textarea>
+        <div
+          *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched"
+          class="text-danger"
+        >
+          Product description is required and must be at least 10 characters long.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select
+          class="form-select"
+          id="category"
+          formControlName="category"
+        >
+          <option value="" disabled>Select a category</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Home & Kitchen">Home & Kitchen</option>
+          <option value="Books">Books</option>
+        </select>
+        <div
+          *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched"
+          class="text-danger"
+        >
+          Product category is required.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="stock" class="form-label">Stock</label>
+        <input
+          type="number"
+          class="form-control"
+          id="stock"
+          formControlName="stock"
+          placeholder="Enter product stock"
+        />
+        <div
+          *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched"
+          class="text-danger"
+        >
+          Product stock is required and must be a valid number.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="image" class="form-label">Product Image URL</label>
+        <input
+          type="text"
+          class="form-control"
+          id="image"
+          formControlName="image"
+          placeholder="Enter product image URL"
+        />
+      </div>
+  
+      <div class="d-flex gap-2">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="productForm.invalid || isSubmitting"
+        >
+          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status"></span>
+          {{ isSubmitting ? 'Updating...' : 'Update Product' }}
+        </button>
+        <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>

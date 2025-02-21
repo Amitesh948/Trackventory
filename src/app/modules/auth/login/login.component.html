@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="welcome">
+    <div class="box" [ngStyle]="{'transform': isSignUp ? 'translateX(80%)' : 'translateX(0%)'}">
+
+      <div class="signup" [ngClass]="{'nodisplay': !isSignUp}">
+        <h1>Sign Up</h1>
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+          <input type="text" placeholder="Username" formControlName="username" *ngIf="isSignUp" required>
+
+          <div class="error text-danger"
+            *ngIf="isSignUp && authForm.get('username')?.invalid && authForm.get('username')?.touched">
+            <span *ngIf="authForm.get('username')?.errors?.['required']"> Username is required.</span>
+          </div>
+          <input type="email" placeholder="Email" formControlName="email" *ngIf="isSignUp" required>
+          <div class="error text-danger" *ngIf="authForm.get('email')?.invalid && authForm.get('email')?.touched">
+            <span *ngIf="authForm.get('email')?.errors?.['required']">Email is required.</span>
+            <span *ngIf="authForm.get('email')?.errors?.['email']">Enter a valid email.</span>
+          </div>
+
+          <input type="password" placeholder="Password" formControlName="password" required>
+          <div class="error text-danger" *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched">
+            <span *ngIf="authForm.get('password')?.errors?.['required']">Password is required.</span>
+            <span *ngIf="authForm.get('password')?.errors?.['minlength']">
+              Password must be at least 6 characters.
+            </span>
+          </div>
+
+          <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" *ngIf="isSignUp"
+            required>
+          <button class="button submit" type="submit" [disabled]="authForm.invalid">Create Account</button>
+        </form>
+      </div>
+
+      <div class="signin" [ngClass]="{'nodisplay': isSignUp}">
+        <h1>Login</h1>
+        <form class="more-padding" [formGroup]="authForm" (ngSubmit)="onSubmit()">
+          <input type="text" placeholder="Email" formControlName="email" required>
+          <div class="error text-danger" *ngIf="authForm.get('email')?.invalid && authForm.get('email')?.touched">
+            <span *ngIf="authForm.get('email')?.errors?.['required']"> Email is required.</span>
+          </div>
+
+          <input type="password" placeholder="Password" formControlName="password" required>
+          <div class="error text-danger" *ngIf="authForm.get('password')?.invalid && authForm.get('password')?.touched">
+            Password is required.
+          </div>
+
+          <div class="checkbox">
+            <input type="checkbox" formControlName="rememberMe" id="remember">
+            <label for="remember">Remember me</label>
+          </div>
+          <button class="button submit" type="submit" [disabled]="authForm.invalid">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="leftbox" *ngIf="isSignUp">
+      <h2 class="title">Have an account?</h2>
+      <p class="desc">Login to see all your collection.</p>
+      <button class="button" (click)="toggleForm(false)">Login</button>
+    </div>
+
+
+    <div class="rightbox" *ngIf="!isSignUp">
+      <h2 class="title">Don't have an account?</h2>
+      <p class="desc">Sign up to save all your graphs.</p>
+      <button class="button" (click)="toggleForm(true)">Sign Up</button>
+    </div>
+  </div>
+</div>
