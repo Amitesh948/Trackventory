@@ -1,129 +1,98 @@
-<div class="container mt-4">
-    <h2 class="mb-4">Update Product</h2>
-  
-    <div *ngIf="isLoading" class="text-center">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-2">Loading product details...</p>
-    </div>
-  
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="update-form-container">
+  <div class="form-header">
+    <h2>Update Product</h2>
+    <p>Edit the product details below</p>
+  </div>
 
-    <form *ngIf="!isLoading" [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label for="name" class="form-label">Product Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            formControlName="name"
-            placeholder="Enter product name"
-          />
-          <div
-            *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched"
-            class="text-danger"
-          >
-            Product name is required and must be at least 3 characters long.
+  <div class="form-body">
+    <div class="form-column">
+      <div class="image-upload-section">
+        <div class="image-preview" [ngStyle]="{'background-image': 'url(' + imagePreview + ')'}">
+          <div *ngIf="!imagePreview" class="upload-instructions">
+            <mat-icon>cloud_upload</mat-icon>
+            <span>Upload Product Image</span>
           </div>
         </div>
-
-        <div class="col-md-6 mb-3">
-          <label for="price" class="form-label">Price</label>
-          <input
-            type="number"
-            class="form-control"
-            id="price"
-            formControlName="price"
-            placeholder="Enter product price"
-          />
-          <div
-            *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched"
-            class="text-danger"
-          >
-            Product price is required and must be a valid number.
-          </div>
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="description" class="form-label">Description</label>
-        <textarea
-          class="form-control"
-          id="description"
-          formControlName="description"
-          placeholder="Enter product description"
-          rows="4"
-        ></textarea>
-        <div
-          *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched"
-          class="text-danger"
-        >
-          Product description is required and must be at least 10 characters long.
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="category" class="form-label">Category</label>
-        <select
-          class="form-select"
-          id="category"
-          formControlName="category"
-        >
-          <option value="" disabled>Select a category</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Clothing">Clothing</option>
-          <option value="Home & Kitchen">Home & Kitchen</option>
-          <option value="Books">Books</option>
-        </select>
-        <div
-          *ngIf="productForm.get('category')?.invalid && productForm.get('category')?.touched"
-          class="text-danger"
-        >
-          Product category is required.
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="stock" class="form-label">Stock</label>
-        <input
-          type="number"
-          class="form-control"
-          id="stock"
-          formControlName="stock"
-          placeholder="Enter product stock"
-        />
-        <div
-          *ngIf="productForm.get('stock')?.invalid && productForm.get('stock')?.touched"
-          class="text-danger"
-        >
-          Product stock is required and must be a valid number.
-        </div>
-      </div>
-  
-      <div class="mb-3">
-        <label for="image" class="form-label">Product Image URL</label>
-        <input
-          type="text"
-          class="form-control"
-          id="image"
-          formControlName="image"
-          placeholder="Enter product image URL"
-        />
-      </div>
-  
-      <div class="d-flex gap-2">
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="productForm.invalid || isSubmitting"
-        >
-          <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status"></span>
-          {{ isSubmitting ? 'Updating...' : 'Update Product' }}
+        
+        <input type="file" hidden (change)="onImageUpload($event)" #fileInput>
+        <button mat-stroked-button type="button" (click)="fileInput.click()">
+          Choose File
         </button>
-        <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+        <span class="file-name">{{ selectedFileName || 'No file chosen' }}</span>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Or enter image URL</mat-label>
+        <input matInput formControlName="image" (blur)="updateImagePreview()">
+        <mat-icon matSuffix>link</mat-icon>
+        <mat-error *ngIf="productForm.get('image')?.hasError('pattern')">
+          Please enter a valid URL
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="name">
+        <mat-icon matSuffix>badge</mat-icon>
+        <mat-error *ngIf="productForm.get('name')?.invalid">
+          Name is required (max 3 characters)
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3"></textarea>
+        <mat-error *ngIf="productForm.get('description')?.invalid">
+          Description is required (max 500 characters)
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="price">
+          <span matPrefix>$&nbsp;</span>
+          <mat-error *ngIf="productForm.get('price')?.invalid">
+            Valid price required (≥ 0)
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Stock Quantity</mat-label>
+          <input matInput type="number" formControlName="stock">
+          <mat-icon matSuffix>inventory</mat-icon>
+          <mat-error *ngIf="productForm.get('stock')?.invalid">
+            Valid stock quantity required (≥ 0)
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Category Section -->
+      <div class="category-section">
+        <mat-form-field appearance="outline">
+          <mat-label>Category</mat-label>
+          <input matInput formControlName="category" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+              {{ category }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button mat-mini-fab color="primary" (click)="addNewCategory()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div class="form-actions">
+        <button mat-stroked-button type="button" (click)="onCancel()">
           Cancel
         </button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!productForm.valid">
+          Update Product
+        </button>
       </div>
-    </form>
+    </div>
   </div>
+</form>

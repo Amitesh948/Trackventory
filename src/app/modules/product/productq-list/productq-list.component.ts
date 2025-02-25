@@ -62,7 +62,7 @@ export class ProductqListComponent implements OnInit, OnDestroy {
   }
 
   getUniqueCategories(products: Product[]): string[] {
-    console.log('Products:', products);
+
     
     return [...new Set(products.map(p => p.category))];
   }

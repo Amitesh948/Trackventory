@@ -68,7 +68,7 @@
       <h2>Product List</h2>
       <button 
         class="btn btn-primary"
-        routerLink="/home/add-product"
+        routerLink="home/add-product"
       >
         <i class="bi bi-plus-circle me-2"></i>Add New Product
       </button>
@@ -121,8 +121,9 @@
               <div class="d-flex gap-2">
                 <button 
                   class="btn btn-sm btn-outline-primary"
-                  [routerLink]="['/home/update-product', product._id]"
+                  [routerLink]="['/home/update-product/'+ product._id]"
                 >
+                
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
                 <button 

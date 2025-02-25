@@ -17,7 +17,7 @@ export const routes: Routes = [
     children: [
       { path: 'add-product', component: ProductFormComponent },
       { path: 'products', component: ProductqListComponent },
-      { path: 'update-product', component: UpdateProductComponent },
+      { path: 'update-product/:id', component: UpdateProductComponent },
       { path: 'delete-product', component: ProductFormComponent }, 
     ], canActivate: [AuthGuard]
   },
