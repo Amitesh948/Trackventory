@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-interface Product {
-  name: string;
-  description: string;
-  price: number;
-  category: string;
-  stock: number;
-  image?: File;
-}
+import { Product } from '../../modules/shared/models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +15,22 @@ export class ProductService {
     return this.http.post(`${this.apiUrl}/add`, productData);
   }
 
-  getProducts(): Observable<any> {
-    return this.http.get(`${this.apiUrl}`);
+  getProducts(category?: string, minPrice?: number, maxPrice?: number): Observable<Product[]> {
+    let params = new HttpParams();
+  
+    if (category) params = params.set('category', category);
+    if (minPrice !== undefined && minPrice !== null) {
+      params = params.set('minPrice', minPrice.toString());
+    }
+    if (maxPrice !== undefined && maxPrice !== null) {
+      params = params.set('maxPrice', maxPrice.toString());
+    }
+  
+    return this.http.get<Product[]>(this.apiUrl, { params });
   }
+
+
+
 
   getProductById(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`);

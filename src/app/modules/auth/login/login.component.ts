@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/authservice/auth.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -14,12 +13,15 @@ export class LoginComponent {
   authForm!: FormGroup;
   isSignUp = false;
 
-
   constructor(private fb: FormBuilder,
     private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+    const isAuthenticated = !!(localStorage.getItem('token') || sessionStorage.getItem('token'));
+    if (isAuthenticated) {
+      this.router.navigate(['/home/add-product']);
+    }
     this.initForm();
   }
 
@@ -40,8 +42,6 @@ export class LoginComponent {
       });
     }
   }
-
-
 
   private passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const password = control.get('password')?.value;
@@ -82,17 +82,15 @@ export class LoginComponent {
         }).subscribe({
           next: (response) => {
             console.log('Login successful', response);
-            if (this.authForm.value.rememberMe)
-              {
+            if (this.authForm.value.rememberMe) {
               localStorage.setItem('token', response.token);
               sessionStorage.removeItem('token');
             }
-            else
-              {
-                sessionStorage.setItem('token', response.token);
-                localStorage.removeItem('token');
-              }
-              this.router.navigate(['/home/add-product']);
+            else {
+              sessionStorage.setItem('token', response.token);
+              localStorage.removeItem('token');
+            }
+            this.router.navigate(['/home/add-product']);
           },
           error: (error) => {
             console.error('Login failed', error);

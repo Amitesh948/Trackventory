@@ -5,6 +5,7 @@ import { LoginComponent } from './modules/auth/login/login.component';
 import { LayoutComponent } from './modules/core/layout/layout.component';
 import { ProductqListComponent } from './modules/product/productq-list/productq-list.component';
 import { UpdateProductComponent } from './modules/product/update-product/update-product.component';
+import { AuthGuard } from './guards/authguard/auth.guard';
 
 
 export const routes: Routes = [
@@ -18,7 +19,7 @@ export const routes: Routes = [
       { path: 'products', component: ProductqListComponent },
       { path: 'update-product', component: UpdateProductComponent },
       { path: 'delete-product', component: ProductFormComponent }, 
-    ],
+    ], canActivate: [AuthGuard]
   },
   { path: '**', component: PageNotFoundComponent },
 ];

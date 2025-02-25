@@ -30,7 +30,7 @@ export class UpdateProductComponent implements OnInit {
       price: ['', [Validators.required, Validators.min(0)]],
       category: ['', Validators.required],
       stock: ['', [Validators.required, Validators.min(0)]],
-      image: [''], // Optional field
+      image: [''], 
     });
   }
 
@@ -47,7 +47,6 @@ export class UpdateProductComponent implements OnInit {
         this.isLoading = false;
       },
       error: (error) => {
-       // this.toastr.error('Failed to load product details.', 'Error');
         this.isLoading = false;
         console.error('Error loading product:', error);
       },
@@ -64,11 +63,9 @@ export class UpdateProductComponent implements OnInit {
 
     this.productService.updateProduct(this.productId, updatedProduct).subscribe({
       next: () => {
-        //this.toastr.success('Product updated successfully!', 'Success');
         this.router.navigate(['/products']);
       },
       error: (error) => {
-        //this.toastr.error('Failed to update product.', 'Error');
         this.isSubmitting = false;
         console.error('Error updating product:', error);
       },
